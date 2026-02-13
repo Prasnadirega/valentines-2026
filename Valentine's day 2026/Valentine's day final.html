@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Garamond', 'Georgia', serif;
+            background: linear-gradient(135deg, #2d1b1b 0%, #4a1a1a 50%, #3d1515 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f4e4d7;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .illustration-top {
+            width: 400px;
+            height: 250px;
+            background: rgba(244, 228, 215, 0.1);
+            border: 2px double #8b4f4f;
+            border-radius: 10px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b4f4f;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 60px;
+            color: #d4a5a5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .question-text {
+            font-size: 2em;
+            margin-bottom: 50px;
+            color: #e8c4b8;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        button {
+            padding: 15px 50px;
+            font-size: 1.3em;
+            border: 2px solid #8b4f4f;
+            background: rgba(139, 79, 79, 0.2);
+            color: #f4e4d7;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Garamond', 'Georgia', serif;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: rgba(139, 79, 79, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 79, 79, 0.3);
+        }
+
+        .sad-image {
+            width: 300px;
+            height: 300px;
+            background: rgba(244, 228, 215, 0.1);
+            border: 2px dashed #6b3535;
+            border-radius: 10px;
+            margin: 50px auto;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #6b3535;
+            font-size: 14px;
+        }
+
+        .sad-text {
+            display: none;
+            font-size: 2em;
+            color: #8b6b6b;
+            margin-top: 30px;
+        }
+
+        .thank-you-text {
+            display: none;
+            font-size: 3em;
+            margin-bottom: 50px;
+            color: #d4a5a5;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .card-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #f4e4d7 0%, #e8d4c4 100%);
+            border: 3px solid #8b4f4f;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2em;
+            color: #8b4f4f;
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 1.5em;
+            color: #4a1a1a;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .card-controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .skip-button {
+            position: absolute;
+            right: 20px;
+            padding: 10px 25px;
+            font-size: 1em;
+        }
+
+        .final-message {
+            display: none;
+            font-size: 4em;
+            color: #d4a5a5;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            font-weight: 400;
+            letter-spacing: 3px;
+            animation: fadeInScale 1s ease;
+        }
+
+        /* Confetti styles */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #d4a5a5;
+            top: -20px;
+            animation: confetti-fall 3s linear forwards;
+            z-index: 1000;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(120vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+                margin-bottom: 40px;
+            }
+
+            .question-text {
+                font-size: 1.5em;
+                margin-bottom: 30px;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            button {
+                padding: 12px 40px;
+                font-size: 1.1em;
+                width: 200px;
+            }
+
+            .card-stack {
+                width: 250px;
+                height: 350px;
+            }
+
+            .card-text {
+                font-size: 1.2em;
+            }
+
+            .thank-you-text {
+                font-size: 2.2em;
+            }
+
+            .final-message {
+                font-size: 2.5em;
+            }
+
+            .skip-button {
+                position: relative;
+                right: 0;
+                margin-top: 10px;
+            }
+
+            .card-controls {
+                flex-direction: column;
+            }
+
+            .illustration-top {
+                width: 150px;
+                height: 150px;
+            }
+
+            .sad-image {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .card-stack {
+                width: 200px;
+                height: 300px;
+            }
+
+            .card-text {
+                font-size: 1em;
+            }
+
+            .final-message {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="illustration-top" id="illustration">
+            <img src="mr.darcy.jpg" style="width: 100%; height: 100%;">
+        </div>
+        
+        <h1 id="title">Happy Valentine's Day, Nadine!</h1>
+        
+        <div class="question-text" id="question">Will you be my Valentine? <br> (but on monday)</div>
+        
+        <div class="button-container" id="buttons">
+            <button onclick="handleYes()">Yes</button>
+            <button onclick="handleNo()">No</button>
+        </div>
+
+        <div class="sad-image" id="sadImage">
+            <img src="sad.jpg" style="width: 100%; height: 100%;">
+        </div>
+        
+        <div class="sad-text" id="sadText">
+            Okay then, have a good Valentine's Day 💙
+        </div>
+
+        <div class="thank-you-text" id="thankYou">
+            Thank You! ❤
+        </div>
+
+        <div class="card-container" id="cardContainer">
+            <div class="card-stack" id="cardStack">
+                <div class="card active" id="card">
+                    <span class="card-number" id="cardNumber">1/30</span>
+                    <div class="card-text" id="cardText">Things I like about you.<br>(Press the Next Card button)</div>
+                </div>
+            </div>
+            <div class="card-controls">
+                <button onclick="nextCard()">Next Card</button>
+                <button class="skip-button" onclick="skipToEnd()">Skip to End</button>
+            </div>
+        </div>
+
+        <div class="final-message" id="finalMessage">
+            Happy Valentine's Day 💝
+            I'm so happy yipeeeee!!!!!!
+        </div>
+    </div>
+
+    <script>
+        let currentCard = 1;
+        const totalCards = 31;
+
+        function createConfetti() {
+            const colors = ['#d4a5a5', '#e8c4b8', '#f4e4d7', '#8b4f4f', '#c48b8b'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 20);
+            }
+        }
+
+        function handleYes() {
+            createConfetti();
+            
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('buttons').style.display = 'none';
+            
+            setTimeout(() => {
+                document.getElementById('thankYou').style.display = 'block';
+                document.getElementById('cardContainer').style.display = 'flex';
+            }, 500);
+        }
+
+        function handleNo() {
+            document.getElementById('title').style.display = 'none';
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('buttons').style.display = 'none';
+            document.getElementById('illustration').style.display = 'none';
+            
+            document.getElementById('sadImage').style.display = 'flex';
+            document.getElementById('sadText').style.display = 'block';
+            
+            document.body.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1f1f1f 100%)';
+        }
+
+        function nextCard() {
+            if (currentCard < totalCards) {
+                currentCard++;
+                updateCard();
+            } else {
+                showFinalMessage();
+            }
+        }
+
+        function updateCard() {
+            const messages = [
+        "Things i like about you<br>(Press the Next Card button).",
+        "Your eyes.",
+        "Your hair<br>(even if you say its a bad hair day).",
+        "How you look in the morning, in the sunlight.",
+        "How you look at me.",
+        "And God your smile, it just GAHH.",
+        "The way you walk.",
+        "Your maturity.",
+        "How you can always hear me somehow.",
+        "Your're honest.",
+        "You care about my feelings.",
+        "How easy it is to talk to you.",
+        "How we say 'dude' to each other.",
+        "You have the blue ticks on Whatsapp on.",
+        "You reply when you can.",
+        "You sometimes read my texts instantly.",
+        "You stand by your opinions.",
+        "You want to hear my opinion.",
+        "How difficult it is to read your emotions sometimes.",
+        "HOW ANNOYING YOU ARE WHEN YOU DO THE 'I have something to tell you. . . nevermind’ THING.",
+        "You make me laugh.",
+        "How your compliments make me feel.",
+        "You make me laugh so easily.",
+        "Our conversations in class.",
+        "You say goodnight back.",
+        "You're chill when i type weird things sometimes 😭.",
+        "Our shared taste in movies.",
+        "How comfortable i am with you.",
+        "You say narcissistic things (in a joking way?).",
+        "Your sarcasm.",
+        "And i'm sure a million other things i have not discovered yet.",
+            ];
+    
+    const card = document.getElementById('card');
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-20px)';
+    
+    setTimeout(() => {
+        document.getElementById('cardNumber').textContent = `${currentCard}/31`;
+        document.getElementById('cardText').innerHTML = messages[currentCard - 1];
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+    }, 300);
+}
+
+        function skipToEnd() {
+            showFinalMessage();
+        }
+
+        function showFinalMessage() {
+            document.getElementById('title').style.display = 'none';
+            document.getElementById('thankYou').style.display = 'none';
+            document.getElementById('cardContainer').style.display = 'none';
+            document.getElementById('illustration').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+            createConfetti();
+        }
+    </script>
+</body>
+</html>
